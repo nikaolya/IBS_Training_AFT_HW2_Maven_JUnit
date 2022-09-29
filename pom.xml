@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.company</groupId>
+    <artifactId>ibs-training-aft</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <!-- Encoding-->
+        <encoding.type>UTF-8</encoding.type>
+
+        <project.build.sourceEncoding>${encoding.type}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${encoding.type}</project.reporting.outputEncoding>
+        <file.encoding>${encoding.type}</file.encoding>
+
+        <!-- Java version -->
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <!-- Dependencies version (<artifactId.version>)-->
+        <junit.version>4.13.2</junit.version>
+        <allure-junit4.version>2.19.0</allure-junit4.version>
+
+
+        <!-- Plugins version-->
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
+
+        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+        <maven-project-info-reports-plugin.version>3.4.1</maven-project-info-reports-plugin.version>
+
+        <aspectj.version>1.9.9.1</aspectj.version>
+        <allure-maven.version>2.10.0</allure-maven.version>
+    </properties>
+
+    <!-- Подключение корпоративного репозитория
+    <repositories>
+        <repository>
+            <id></id>
+            <url></url>
+        </repository>
+    </repositories> -->
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope> <!-- Область видимости зависимости, только src/test -->
+            <!-- Чтобы исключить одну из библиотек, которая подтянулась автоматически -->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId></groupId>-->
+<!--                    <artifactId></artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-junit4 -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit4</artifactId>
+            <version>${allure-junit4.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <!-- Maven - Plugins - dependency - dependency::tree чтобы посмотреть зависимости библиотек -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                </plugin>
+
+                <!-- Плагин, который отвечает за компиляцию тестов и в целом всех java классов-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <encoding>${encoding.type}</encoding>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven-site-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${maven-project-info-reports-plugin.version}</version>
+                </plugin>
+
+                <!-- Плагин, который отвечает за запуск тестов и сбор информации о состоянии тестов, которые были запущены -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <testFailureIgnore>true</testFailureIgnore>
+                        <includes>
+                            <include>**/*Test.java</include>
+                        </includes>
+                        <argLine>
+                            -Xmx1024m
+                            -Dfile.encoding=${encoding.type}
+                            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                        </argLine>
+                        <properties>
+                            <property>
+                                <name>listener</name>
+                                <value>io.qameta.allure.junit4.AllureJunit4</value>
+                            </property>
+                        </properties>
+                        <systemPropertyVariables>
+                            <allure.results.directory>${project.build.directory}/reports/allure-results</allure.results.directory>
+                        </systemPropertyVariables>
+
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.aspectj</groupId>
+                            <artifactId>aspectjweaver</artifactId>
+                            <version>${aspectj.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!-- Плагин, который отвечает за формирование сайта Allure отчета -->
+                <plugin>
+                    <groupId>io.qameta.allure</groupId>
+                    <artifactId>allure-maven</artifactId>
+                    <version>${allure-maven.version}</version>
+                    <configuration>
+                        <reportVersion>2.14.0</reportVersion>
+                        <resultsDirectory>${project.build.directory}/reports/allure-results</resultsDirectory>
+                        <reportDirectory>${project.build.directory}/reports/allure-report</reportDirectory>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+
+
+
+
+</project>
