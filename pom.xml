@@ -22,50 +22,57 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <!-- Dependencies version (<artifactId.version>)-->
-        <junit.version>4.13.2</junit.version>
-        <allure-junit4.version>2.19.0</allure-junit4.version>
+        <junit-jupiter.version>5.9.1</junit-jupiter.version>
+        <junit-jupiter-engine.version>5.9.1</junit-jupiter-engine.version>
+        <junit-platform-suite.version>1.9.1</junit-platform-suite.version>
+        <junit-platform-runner.version>1.9.1</junit-platform-runner.version>
+        <allure-junit5.version>2.19.0</allure-junit5.version>
 
 
         <!-- Plugins version-->
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
 
+        <junit-platform-surefire-provider.version>1.3.2</junit-platform-surefire-provider.version>
+
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <maven-project-info-reports-plugin.version>3.4.1</maven-project-info-reports-plugin.version>
 
         <aspectj.version>1.9.9.1</aspectj.version>
         <allure-maven.version>2.10.0</allure-maven.version>
+        <allure-reportVersion>2.17.2</allure-reportVersion>
     </properties>
 
-    <!-- Подключение корпоративного репозитория
-    <repositories>
-        <repository>
-            <id></id>
-            <url></url>
-        </repository>
-    </repositories> -->
-
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope> <!-- Область видимости зависимости, только src/test -->
-            <!-- Чтобы исключить одну из библиотек, которая подтянулась автоматически -->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId></groupId>-->
-<!--                    <artifactId></artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-junit4 -->
+        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>${junit-platform-runner.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <version>${junit-platform-suite.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-junit5 -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-junit4</artifactId>
-            <version>${allure-junit4.version}</version>
+            <artifactId>allure-junit5</artifactId>
+            <version>${allure-junit5.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -74,12 +81,6 @@
     <build>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <!-- Maven - Plugins - dependency - dependency::tree чтобы посмотреть зависимости библиотек -->
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                </plugin>
-
                 <!-- Плагин, который отвечает за компиляцию тестов и в целом всех java классов-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -121,13 +122,16 @@
                         <properties>
                             <property>
                                 <name>listener</name>
-                                <value>io.qameta.allure.junit4.AllureJunit4</value>
+                                <value>io.qameta.allure.junit5.AllureJunit5</value>
+                            </property>
+                            <property>
+                                <name>junit.jupiter.extensions.autodetection.enabled</name>
+                                <value>true</value>
                             </property>
                         </properties>
                         <systemPropertyVariables>
                             <allure.results.directory>${project.build.directory}/reports/allure-results</allure.results.directory>
                         </systemPropertyVariables>
-
                     </configuration>
                     <dependencies>
                         <dependency>
@@ -144,7 +148,7 @@
                     <artifactId>allure-maven</artifactId>
                     <version>${allure-maven.version}</version>
                     <configuration>
-                        <reportVersion>2.14.0</reportVersion>
+                        <reportVersion>${allure-reportVersion}</reportVersion>
                         <resultsDirectory>${project.build.directory}/reports/allure-results</resultsDirectory>
                         <reportDirectory>${project.build.directory}/reports/allure-report</reportDirectory>
                     </configuration>
@@ -153,8 +157,5 @@
             </plugins>
         </pluginManagement>
     </build>
-
-
-
 
 </project>
