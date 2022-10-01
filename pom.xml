@@ -22,6 +22,8 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <!-- Dependencies version (<artifactId.version>)-->
+        <selenium-java.version>4.4.0</selenium-java.version>
+        <webdrivermanager.verson>5.3.0</webdrivermanager.verson>
         <junit-jupiter.version>5.9.1</junit-jupiter.version>
         <junit-jupiter-engine.version>5.9.1</junit-jupiter-engine.version>
         <junit-platform-suite.version>1.9.1</junit-platform-suite.version>
@@ -44,6 +46,20 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium-java.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.verson}</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
