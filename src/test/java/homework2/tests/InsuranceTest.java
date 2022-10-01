@@ -1,5 +1,6 @@
 package homework2.tests;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,7 +22,7 @@ public class InsuranceTest {
 
 	@BeforeEach
 	public void setup(){
-		System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+		WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("start-maximized");
 		driver = new ChromeDriver(options);
