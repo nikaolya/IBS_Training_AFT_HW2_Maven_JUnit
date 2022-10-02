@@ -210,18 +210,18 @@ public class InsuranceTest {
 	}
 
 	private void closePopUpIfPresent(){
-		try {
-			WebElement popup = driver.findElement(By.xpath("//iframe[contains(@title, 'widget')]"));
-			wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(popup));
-
-			WebElement closePopupButton = driver.findElement(By.xpath("//div[@data-fl-track = 'click-close-login']"));
-			wait.ignoring(StaleElementReferenceException.class)
-					.until(ExpectedConditions.textToBePresentInElement(closePopupButton, "×"));
-			closePopupButton.click();
-		} catch (NoSuchElementException e){
-		} finally {
+//		try {
+//			WebElement popup = driver.findElement(By.xpath("//iframe[contains(@title, 'widget')]"));
+//			wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(popup));
+//
+//			WebElement closePopupButton = driver.findElement(By.xpath("//div[@data-fl-track = 'click-close-login']"));
+//			wait.ignoring(StaleElementReferenceException.class)
+//					.until(ExpectedConditions.textToBePresentInElement(closePopupButton, "×"));
+//			closePopupButton.click();
+//		} catch (NoSuchElementException e){
+//		} finally {
 			driver.switchTo().defaultContent();
-		}
+//		}
 	}
 
 
