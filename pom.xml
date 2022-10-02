@@ -43,6 +43,10 @@
         <aspectj.version>1.9.9.1</aspectj.version>
         <allure-maven.version>2.10.0</allure-maven.version>
         <allure-reportVersion>2.17.2</allure-reportVersion>
+
+        <!-- Конфигурация запуска тестов -->
+        <runSuite>**/InsuranceTestSuite.class</runSuite>
+
     </properties>
 
     <dependencies>
@@ -127,12 +131,16 @@
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
                         <testFailureIgnore>true</testFailureIgnore>
+                        <groups>UI</groups>
                         <argLine>
                             -Xmx1024m
                             -Dfile.encoding=${encoding.type}
                             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                         </argLine>
                         <properties>
+                            <includes>
+                                <include>${runSuite}</include>
+                            </includes>
                             <property>
                                 <name>junit.jupiter.extensions.autodetection.enabled</name>
                                 <value>true</value>
