@@ -1,4 +1,5 @@
 Selenium + Maven + JUnit5
+
 запуск: clean test site -Dbrowser=chrome allure:report
 
 Нужно написать автотест по заданному сценарию:
